@@ -12,12 +12,28 @@
   "dependencies": {
     "@types/aws-lambda": "^8.10.34",
     "@types/aws-sdk": "^2.7.0",
+    "@types/bluebird": "^3.5.28",
+    "@types/jsdom": "^12.2.4",
+    "@types/lodash": "^4.14.144",
     "@types/mailparser": "^2.4.0",
     "@types/node": "^12.11.7",
+    "@types/snapsvg": "^0.5.0",
+    "@types/uuid": "^3.4.5",
     "aws-lambda": "^0.1.2",
     "aws-sdk": "^2.556.0",
+    "bluebird": "^3.7.1",
+    "clipper-lib": "^6.2.1",
+    "dom-parser": "^0.1.6",
     "dotenv": "^8.2.0",
+    "gl-matrix": "^3.1.0",
+    "hhmmss": "^1.0.0",
+    "jsdom": "^15.2.0",
+    "lodash": "^4.17.15",
     "mailparser": "^2.7.1",
-    "typescript": "^3.6.4"
+    "poly2tri": "^1.5.0",
+    "queue": "^6.0.1",
+    "snapsvg": "^0.5.1",
+    "typescript": "^3.6.4",
+    "uuid": "^3.3.3"
   }
 }

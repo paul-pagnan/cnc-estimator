@@ -11,8 +11,9 @@ const params = {
                 mail: {
                     timestamp: '2019-10-27T02:29:58.801Z',
                     source: 'paul@pagnan.com.au',
-                    messageId: '3qsabcvncvtg1sh69bh187m7npfgr2ae47qmem81', // with attachments
+                    // messageId: '3qsabcvncvtg1sh69bh187m7npfgr2ae47qmem81', // with attachments
                     // messageId: 'phti9lt90po7js60r60lheauihqif8r0rre4ss01', // no attachments
+                    messageId: 'vthpi0kfngl4n9frbismpskfg5g35ce1m0forco1', // SVG
                     headers: [
                         {
                             name: 'Subject',

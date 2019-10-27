@@ -2,6 +2,7 @@ import { getFilesFromS3Email } from './files/s3Loader';
 import AWS from 'aws-sdk';
 import config from './config';
 import * as mailer from './mail/mailer';
+import { Estimator } from './estimator/estimator';
 
 export default class Main {
     constructor(private incomingEmail: IncomingEmail) {
@@ -18,6 +19,16 @@ export default class Main {
         try {
             const files = await getFilesFromS3Email(messageId);
             if (!files || !files.length) throw new Error('No attachments found');
+
+            const mappedFiles: CNCFile[] = files.map(f => ({
+                filename: f.filename,
+                mimetype: f.contentType,
+                data: f.content,
+            }));
+
+            const estimator = new Estimator(mappedFiles);
+            
+            await estimator.estimate();
 
             console.log(files);
         } catch (err) {

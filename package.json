@@ -2,11 +2,22 @@
   "name": "cnc-estimator",
   "version": "1.0.0",
   "description": "An app to accept some 2d files (DXF, SVG) and produce a quote of how much it will cost to produce",
-  "main": "index.js",
   "repository": "https://github.com/paul-pagnan/cnc-estimator",
   "author": "Paul Pagnan <paul@pagnan.com.au>",
   "license": "GNU General Public License v3.0",
+  "scripts": {
+    "start": "tsc && node dist/runLocal.js",
+    "build": "tsc && zip build.zip dist/*"
+  },
   "dependencies": {
+    "@types/aws-lambda": "^8.10.34",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/mailparser": "^2.4.0",
+    "@types/node": "^12.11.7",
+    "aws-lambda": "^0.1.2",
+    "aws-sdk": "^2.556.0",
+    "dotenv": "^8.2.0",
+    "mailparser": "^2.7.1",
     "typescript": "^3.6.4"
   }
 }

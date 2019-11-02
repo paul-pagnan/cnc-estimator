@@ -334,7 +334,7 @@ function drawText(state, entity, docLayer, index) {
       context: ctx2,
     });
     
-    console.log(`polygons: ${polygons}`);
+    // console.log(`polygons: ${polygons}`);
 
     let coords = [];
     polygons.forEach(function(loops) {

@@ -4,6 +4,7 @@ import { parseFile } from './gcodegen/documentParser';
 import { flatten } from 'lodash';
 import uuidv4 from 'uuid/v4';
 import * as fs from 'fs';
+import { processGcode } from './gcodeanlayse';
 
 export class Estimator {
     constructor(private files: CNCFile[]) {
@@ -13,7 +14,7 @@ export class Estimator {
         const documents = await Promise.all(docPromises);
         return flatten(documents);
     }
-    async getGcode(cutRate: number) {
+    async getGcode(cutRate: number): Promise<string> {
         const settings = defaultSettings;
         const documents = await this.parseDocuments(settings);
         const operations: Operation[] = [{
@@ -35,13 +36,22 @@ export class Estimator {
             getGcode(settings, documents, operations, onError, onDone, onProgress);
         });
     }
+
+    async analyseGcode(gcode: string) {
+        if (!gcode) throw new Error('No gcode provided');
+        const output = await processGcode(gcode);
+        return output;
+    }
+
     async estimate() {
-        const cutRate = 100; // in mm/min
+        const cutRate = 500; // in mm/min
         const gcode = await this.getGcode(cutRate);
-        console.log(gcode);
 
-        fs.writeFileSync('text.gcode', gcode);
+        const analysis = await this.analyseGcode(gcode);
 
-        // return gcode;
+        return {
+            time: analysis.printTime,
+            totalDistance: analysis.totalDistance,
+        }
     }
 }

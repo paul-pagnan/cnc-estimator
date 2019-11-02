@@ -39,6 +39,18 @@ export const sendEmail = async (params: SendEmailParams) => {
     await ses.sendEmail(getParams(params)).promise();
 }
 
+
+export const replyWithResult = async (incomingMail: IncomingEmail, result: any) => {
+    const params = {
+        to: [incomingMail.sourceEmail],
+        subject: `RE:${incomingMail.subject}`,
+        html: '<p>Successfully processed. The estimate is:</p>' +
+            `<br/><p>${JSON.stringify(result)}</p>`,
+        text: 'Success'
+    };
+    return sendEmail(params);
+};
+
 export const replyWithError = async (incomingMail: IncomingEmail, error: Error) => {
     const params = {
         to: [incomingMail.sourceEmail],

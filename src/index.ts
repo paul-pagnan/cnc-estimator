@@ -27,8 +27,10 @@ export default class Main {
             }));
 
             const estimator = new Estimator(mappedFiles);
-            await estimator.estimate();
+            const estimate = await estimator.estimate();
 
+            console.log('Done', estimate);
+            // await mailer.replyWithResult(this.incomingEmail, estimate);
         } catch (err) {
             console.log('There was an error. Replying to the email with details');
             console.error(err);
@@ -51,4 +53,5 @@ export const handler = async (event: any): Promise<void> => {
         subject: subject.value,
     });
     await main.process();
+    process.exit(0);
 };

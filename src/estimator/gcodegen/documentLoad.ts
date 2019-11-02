@@ -5,10 +5,8 @@
 import { mat2d } from 'gl-matrix';
 import { Settings, Document } from './cam-gcode';
 import uuidv4 from 'uuid/v4';
-import Snap from 'snapsvg';
 import { pathStrToRawPaths, hasClosedRawPaths } from './mesh'
-import { JSDOM } from 'jsdom';
-import Bluebird from 'bluebird';
+import { getSnapNode } from './snap';
 
 export const DOCUMENT_INITIALSTATE: Document = {
     id: '',
@@ -48,23 +46,6 @@ async function loadSvg(settings: Settings, file: CNCFile, content: Content, id =
 
     let { parser, tags, attrs = {} } = content;
 
-    // Some hacky stuff to allow SnapSVG to be used in node
-    const dom = new JSDOM(
-        '<script src="node_modules/snapsvg/dist/snap.svg.js"/>',
-        {
-            runScripts: "dangerously",
-            resources: "usable"
-        }
-    );
-    const window = dom.window as typeof dom.window & { 
-        Snap: typeof Snap;
-    };
-    // have to be sure the snap module is loaded before proceeding
-    await ((async () => {
-        while (!window.Snap) {
-            await Bluebird.delay(100);
-        }
-    })());
 
     let pxPerInch = (settings.pxPerInch) ? + settings.pxPerInch : 96;
     let allPositions = [];
@@ -78,11 +59,11 @@ async function loadSvg(settings: Settings, file: CNCFile, content: Content, id =
     }
 
     function getColor(c: string) {
-        let sc = window.Snap.color(c);
-        if (sc.r === -1 || sc.g === -1 || sc.b === -1)
-            return [0, 0, 0, 0];
-        else
-            return [sc.r / 255, sc.g / 255, sc.b / 255, 1];
+        // let sc = window.Snap.color(c);
+        // if (sc.r === -1 || sc.g === -1 || sc.b === -1)
+        return [0, 0, 0, 0];
+        // else
+            // return [sc.r / 255, sc.g / 255, sc.b / 255, 1];
     }
 
     function mat2dFromSnap(m: any) {
@@ -101,7 +82,9 @@ async function loadSvg(settings: Settings, file: CNCFile, content: Content, id =
 
     function addChildren(parent: any, tag: any, parentMat: any, precision = 0.1) {
         for (let child of tag.children) {
-            let localMat = mat2dFromSnap(window.Snap(child.element).transform().localMatrix);
+
+            let localMat = mat2dFromSnap(getSnapNode(child).transform().localMatrix);
+
             let combinedMat = mat2d.mul([], parentMat, localMat);
             let c = {
                 ...DOCUMENT_INITIALSTATE,

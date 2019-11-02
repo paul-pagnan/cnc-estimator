@@ -27,14 +27,12 @@ export default class Main {
             }));
 
             const estimator = new Estimator(mappedFiles);
-            
             await estimator.estimate();
 
-            console.log(files);
         } catch (err) {
             console.log('There was an error. Replying to the email with details');
             console.error(err);
-            await mailer.replyWithError(this.incomingEmail, err);
+            // await mailer.replyWithError(this.incomingEmail, err);
         }
     }
 }

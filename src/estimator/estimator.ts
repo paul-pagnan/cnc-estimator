@@ -37,7 +37,9 @@ export class Estimator {
     async estimate() {
         const cutRate = 100; // in mm/s
         const gcode = await this.getGcode(cutRate);
-        console.log("GOT GCODE");
-        console.log(gcode);
+
+        
+
+        // return gcode;
     }
 }

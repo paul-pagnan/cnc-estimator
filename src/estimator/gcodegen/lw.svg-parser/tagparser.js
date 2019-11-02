@@ -1,5 +1,6 @@
 import { Arc, CubicBezier, QuadricBezier } from './curves'
 import { Point, Path } from './path'
+import { forEachChildNode } from './parserUtils';
 
 // SVG tag parser
 class TagParser {
@@ -107,7 +108,7 @@ class TagParser {
     // Normalize tag attribute
     _normalizeTagAttr(attr) {
         // Normalize whitespaces
-        let value = attr.nodeValue
+        let value = (attr.nodeValue || '')
             .replace(/(\r?\n|\r)+/gm, ' ') // Remove all new line chars
             .replace(/\s+/gm, ' ')         // Reduce multiple whitespaces
             .trim()                        // Remove trailing whitespaces
@@ -547,9 +548,9 @@ class TagParser {
 
     _defs() {
         // Register all child element with an id attribute
-        this.tag.element.childNodes.forEach(childNode => {
+        forEachChildNode(this.tag.element.childNodes, childNode => {
             childNode.id && (this.parser.defs[childNode.id] = childNode)
-        })
+        });
 
         // Skipped tag
         return false

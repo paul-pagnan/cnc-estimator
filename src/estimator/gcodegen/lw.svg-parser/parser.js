@@ -1,7 +1,9 @@
 // Imports
 import { Tag } from './tag'
 import { TagParser } from './tagparser'
-const DOMParser = require('dom-parser');
+// const DOMParser = require('dom-parser');
+const DOMParser = require('xmldom').DOMParser;
+import { forEachChildNode } from './parserUtils';
 
 // SVG parser class
 class Parser {
@@ -119,7 +121,7 @@ class Parser {
             // Parse string as DOM object
             let parser = new DOMParser()
             let XMLDoc = parser.parseFromString(input, 'text/xml')
-            console.log(XMLDoc);
+
             // Load from XMLDocument...
             this.loadFromXMLDocument(XMLDoc).then(resolve).catch(reject)
         })
@@ -233,6 +235,7 @@ class Parser {
     // Register on tag callback
     onTag(callback, context) {
         this._onTag = tag => callback.call(context || this, tag)
+        const length = nodeList.length;
     }
 
     // Parse the provided Element and return an Tag collection (recursive)
@@ -263,12 +266,12 @@ class Parser {
         // Parse child nodes
         let childTag
 
-        element.childNodes.forEach(childNode => {
+        forEachChildNode(element.childNodes, (childNode) => {
             // Parse child element
             if (childTag = this._parseElement(childNode, tag)) {
                 tag.addChild(childTag)
             }
-        })
+        });
 
         // Empty group
         if (['svg', 'g'].indexOf(tag.name) !== -1 && ! tag.children.length) {
@@ -281,13 +284,13 @@ class Parser {
 
     // Log skip tag warning message
     _skipTag(tag, message) {
-        console.warn('Skip tag :', message + ':', tag)
+        console.warn('Skip tag :', message + ':')
         return false
     }
 
     // Log skip tag attribute warning message
     _skipTagAttr(tag, attr, message) {
-        console.warn('Skip tag attribute :', message + ':', attr, tag)
+        console.warn('Skip tag attribute :', message + ':')
         return false
     }
 

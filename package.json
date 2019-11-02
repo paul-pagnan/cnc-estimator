@@ -6,10 +6,13 @@
   "author": "Paul Pagnan <paul@pagnan.com.au>",
   "license": "GNU General Public License v3.0",
   "scripts": {
-    "start": "tsc && node dist/runLocal.js",
-    "build": "tsc && zip build.zip dist/*"
+    "copyHtml": "copyfiles -u 1 ./src/**/*.html dist/",
+    "compile": "npm run copyHtml && tsc",
+    "start": "npm run compile && node dist/runLocal.js",
+    "build": "npm run compile && zip build.zip dist/*"
   },
   "dependencies": {
+    "@svgdotjs/svg.js": "^3.0.14",
     "@types/aws-lambda": "^8.10.34",
     "@types/aws-sdk": "^2.7.0",
     "@types/bluebird": "^3.5.28",
@@ -23,6 +26,7 @@
     "aws-sdk": "^2.556.0",
     "bluebird": "^3.7.1",
     "clipper-lib": "^6.2.1",
+    "copyfiles": "^2.1.1",
     "dom-parser": "^0.1.6",
     "dotenv": "^8.2.0",
     "gl-matrix": "^3.1.0",
@@ -33,7 +37,10 @@
     "poly2tri": "^1.5.0",
     "queue": "^6.0.1",
     "snapsvg": "^0.5.1",
+    "svgdom": "^0.0.21",
     "typescript": "^3.6.4",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "xmldom": "^0.1.27",
+    "xregexp": "^4.2.4"
   }
 }

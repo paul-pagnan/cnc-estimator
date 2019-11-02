@@ -9,9 +9,11 @@ Packages Needed by this lib:
 - clipper-lib
 - poly2tri
 - gl-matrix
-<!-- - dxf-parser -->
 - lw.svg-parser
 - uuid
-- snapsvg
 - jsdom
 - bluebird
+- xmldom
+- xregexp
+- svgdom
+- @svgdotjs/svg.js

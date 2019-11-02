@@ -5,17 +5,16 @@ import Parser from './lw.svg-parser/parser';
 import { imageTagPromise } from './imageFilter';
 import { Document, Settings } from './cam-gcode';
 import { loadDocument } from './documentLoad';
+import { init } from './snap';
 
 export async function parseFile(settings: Settings, file: CNCFile): Promise<Document[]> {
+    await init();
+
     const { data, filename } = file;
     if (filename.substr(-4) === '.svg') {
-        console.log("A");
-        console.log(data);
         let parser = new Parser({});
         const tags = await parser.parse(data.toString());
-        console.log(tags);
         const _tags = await imageTagPromise(tags);
-        console.log(_tags);
         const files = loadDocument(settings, file, { parser, tags: _tags });
         return files;
     }

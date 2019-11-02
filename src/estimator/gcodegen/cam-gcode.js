@@ -42,9 +42,13 @@ export function getGcode(settings, documents, operations, onError, done, progres
         }
 
         let invokeWorker = (props, cb, jobIndex) => {
-            let peasant = new Worker('./workers/cam-lasercut.js', { data: props });
-            peasant.onmessage = (e) => {
-                let data = JSON.parse(e.data)
+            const workerPath = path.join(__dirname, './workers/cam-lasercut.js');
+            // let peasant = new Worker('./workers/cam-lasercut.js', { data: props });
+            let peasant = new Worker(workerPath, { workerData: props });
+            peasant.on('message', (data) => {
+            // peasant.onmessage = (e) => {
+                // console.log("AA", e);
+                // let data = JSON.parse(e.data)
                 if (data.event == 'onDone') {
                     gauge[props.opIndex*2+1]=100;
                     progress(gauge)
@@ -58,13 +62,15 @@ export function getGcode(settings, documents, operations, onError, done, progres
                     })
                     QE.end()
                 }
-            }
+            });
+            peasant.on('error', (err) => {
+                onError(err.message);
+            });
             workers.push(peasant)
         }
 
         let preflightPromise = (settings, documents, opIndex, op, workers) => {
             return new Promise((resolve, reject) => {
-                console.log(documents);
                 let geometry = [];
                 let openGeometry = [];
                 let tabGeometry = [];
@@ -100,8 +106,6 @@ export function getGcode(settings, documents, operations, onError, done, progres
             console.log(op.type + "->" + jobIndex)
             preflightPromise(settings, documents, opIndex, op, workers)
                 .then((preflight) => {
-                    console.log("PREFLIGHT");
-                    console.log(preflight);
                     let { geometry, openGeometry, tabGeometry } = preflight;
 
                     if (op.type === 'Laser Cut' || op.type === 'Laser Cut Inside' || op.type === 'Laser Cut Outside' || op.type === 'Laser Fill Path') {
@@ -134,8 +138,10 @@ export function getGcode(settings, documents, operations, onError, done, progres
 
     QE.start((err) => {
         progress(100)
-        let ellapsed=(new Date().getTime()-starttime)/1000;
-        onError("Ellapsed: "+hhmmss(ellapsed)+String(Number(ellapsed-Math.floor(ellapsed)).toFixed(3)).substr(1),"info");
+        if (err) {
+            let ellapsed=(new Date().getTime()-starttime)/1000;
+            onError("Ellapsed: "+hhmmss(ellapsed)+String(Number(ellapsed-Math.floor(ellapsed)).toFixed(3)).substr(1),"info");
+        }
         done(settings.gcodeStart + gcode.join('\r\n') + settings.gcodeEnd);
     })
 

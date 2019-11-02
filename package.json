@@ -25,10 +25,12 @@
     "aws-lambda": "^0.1.2",
     "aws-sdk": "^2.556.0",
     "bluebird": "^3.7.1",
+    "canvas": "^2.6.0",
     "clipper-lib": "^6.2.1",
     "copyfiles": "^2.1.1",
     "dom-parser": "^0.1.6",
     "dotenv": "^8.2.0",
+    "dxf-parser": "^1.0.0-alpha.1",
     "gl-matrix": "^3.1.0",
     "hhmmss": "^1.0.0",
     "jsdom": "^15.2.0",
@@ -40,6 +42,7 @@
     "svgdom": "^0.0.21",
     "typescript": "^3.6.4",
     "uuid": "^3.3.3",
+    "vectorize-text": "^3.2.1",
     "xmldom": "^0.1.27",
     "xregexp": "^4.2.4"
   }

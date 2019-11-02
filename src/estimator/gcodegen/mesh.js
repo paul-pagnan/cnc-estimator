@@ -19,7 +19,6 @@
 
 import ClipperLib from 'clipper-lib';
 import SweepContext from 'poly2tri/src/sweepcontext';
-import { getSnap } from './snap';
 
 export const inchToClipperScale = 1270000000;
 export const mmToClipperScale = inchToClipperScale / 25.4; // 50000000;
@@ -94,6 +93,8 @@ function linearizeSnapPath(path, minNumSegments, minSegmentLength, alertFn) {
 function elementToLinearSnapPaths(element, minNumSegments, minSegmentLength, alertFn) {
     let path = null;
     // let Snap = require('snapsvg');
+    const { getSnap, getSnapNode } = require('./snap');
+
     let Snap = getSnap();
     // let snapElement = Snap(element);
     let snapElement = getSnapNode(element);
@@ -175,6 +176,7 @@ export function elementToRawPaths(element, pxPerInch, minNumSegments, minSegment
 // Calls alertFn with an error message and returns null if there's a problem.
 export function pathStrToRawPaths(str, pxPerInch, minNumSegments, minSegmentLength, alertFn) {
     // let Snap = require('snapsvg');
+    const { getSnap } = require('./snap');
     let Snap = getSnap();
     let path = Snap.parsePathString(str);
     path = Snap.path.toCubic(path);

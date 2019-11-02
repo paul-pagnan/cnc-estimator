@@ -47,7 +47,6 @@ export function getGcode(settings, documents, operations, onError, done, progres
             let peasant = new Worker(workerPath, { workerData: props });
             peasant.on('message', (data) => {
             // peasant.onmessage = (e) => {
-                // console.log("AA", e);
                 // let data = JSON.parse(e.data)
                 if (data.event == 'onDone') {
                     gauge[props.opIndex*2+1]=100;
@@ -58,12 +57,14 @@ export function getGcode(settings, documents, operations, onError, done, progres
                     progress(gauge)
                 } else {
                     data.errors.forEach((item) => {
+                        console.log('Error from cam-lasercut worker Message');
                         onError(item.message, item.level)
                     })
                     QE.end()
                 }
             });
             peasant.on('error', (err) => {
+                console.log('Error from cam-lasercut worker');
                 onError(err.message);
             });
             workers.push(peasant)
@@ -96,6 +97,7 @@ export function getGcode(settings, documents, operations, onError, done, progres
                     }
                 });
                 preflight.on('error', (err) => {
+                    console.log("Error in preflight", err.stack);
                     reject(err);
                 });
                 workers.push(preflight);

@@ -3,6 +3,7 @@ import { defaultSettings, defaultOperation } from './gcodegen/defaults';
 import { parseFile } from './gcodegen/documentParser';
 import { flatten } from 'lodash';
 import uuidv4 from 'uuid/v4';
+import * as fs from 'fs';
 
 export class Estimator {
     constructor(private files: CNCFile[]) {
@@ -35,10 +36,11 @@ export class Estimator {
         });
     }
     async estimate() {
-        const cutRate = 100; // in mm/s
+        const cutRate = 100; // in mm/min
         const gcode = await this.getGcode(cutRate);
+        console.log(gcode);
 
-        
+        fs.writeFileSync('text.gcode', gcode);
 
         // return gcode;
     }

@@ -17,3 +17,6 @@ Packages Needed by this lib:
 - xregexp
 - svgdom
 - @svgdotjs/svg.js
+- dxf-parser
+- vectorize-text
+- canvas

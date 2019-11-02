@@ -24,6 +24,8 @@ export async function getFilesFromS3Email(messageId: string) {
     const key = `${Config.s3.keyPrefix}/${messageId}`;
     const file = await getFile(key);
 
+    console.log('Retrieving attachments');
     const attachments = await getAttachemnts(file.Body.toString());
+    console.log(`Got files: `, attachments.map(x => x.filename).join(', '))
     return attachments;
 };

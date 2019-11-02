@@ -9,6 +9,8 @@ registerWindow(window , document)
 
 
 export async function init() {
+    if (window.Snap) return;
+
     const url = path.join(__dirname, './jsdom/index.html');
     const dom: any = await JSDOM.fromFile(url, {
         runScripts: 'dangerously',

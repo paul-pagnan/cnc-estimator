@@ -15,7 +15,7 @@ const params = {
                     // messageId: 'phti9lt90po7js60r60lheauihqif8r0rre4ss01', // no attachments
                     // messageId: 'vthpi0kfngl4n9frbismpskfg5g35ce1m0forco1', // SVG
                     // messageId: 'ljhhqmiisr8cdv8b4huo4742vgekvqo8r8bobeo1', // car-alt-solid.svg
-                    // messageId: '33o7fa34sgnpgrb60ho32hbphlm3t6j0stgf5j01', // Drawing2.dxf
+                    messageId: '33o7fa34sgnpgrb60ho32hbphlm3t6j0stgf5j01', // Drawing2.dxf
                     headers: [
                         {
                             name: 'Subject',
@@ -28,9 +28,9 @@ const params = {
     ]
 };
 
-console.log('Calling the handler...');
+// console.log('Calling the handler...');
 handler(params).then((result: any) => {
-    console.log(`Finished`);
+    // console.log(`Finished`);
 }).catch((err: Error) => {
     console.error(err);
     process.exit(2);

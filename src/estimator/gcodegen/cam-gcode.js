@@ -105,12 +105,12 @@ export function getGcode(settings, documents, operations, onError, done, progres
         }
 
         if (op.enabled) QE.push((cb) => {
-            console.log(op.type + "->" + jobIndex)
+            console.log(`Generating ${op.type} path -> ${jobIndex + 1}`);
             preflightPromise(settings, documents, opIndex, op, workers)
                 .then((preflight) => {
                     let { geometry, openGeometry, tabGeometry } = preflight;
 
-                    if (op.type === 'Laser Cut' || op.type === 'Laser Cut Inside' || op.type === 'Laser Cut Outside' || op.type === 'Laser Fill Path') {
+                    if (op.type === 'Laser Cut' || op.type === 'Water Cut' || op.type === 'Laser Cut Inside' || op.type === 'Laser Cut Outside' || op.type === 'Laser Fill Path') {
                         invokeWorker({ settings, opIndex, op, geometry, openGeometry, tabGeometry }, cb, jobIndex)
                     }
                 })

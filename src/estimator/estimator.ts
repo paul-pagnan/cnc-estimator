@@ -15,6 +15,7 @@ export class Estimator {
         return flatten(documents);
     }
     async getGcode(cutRate: number): Promise<string> {
+        console.log(`Generatting GCode... Cut rate ${cutRate} mm/min`);
         const settings = defaultSettings;
         const documents = await this.parseDocuments(settings);
         const operations: Operation[] = [{
@@ -22,6 +23,7 @@ export class Estimator {
             documents: documents.map(x => x.id),
             id: uuidv4(),
             name: 'Main cuts',
+            type: 'Water Cut',
             cutRate,
         }];
 
@@ -30,7 +32,7 @@ export class Estimator {
             const onDone = (gcode: string) => resolve(gcode);
 
             const onProgress = (gauge: number[]) => {
-                console.log(gauge);
+                // console.log(gauge);
             };
     
             getGcode(settings, documents, operations, onError, onDone, onProgress);
@@ -47,6 +49,7 @@ export class Estimator {
         const cutRate = 500; // in mm/min
         const gcode = await this.getGcode(cutRate);
 
+        console.log('Done generating Gcode. Analysing it now...')
         const analysis = await this.analyseGcode(gcode);
 
         return {

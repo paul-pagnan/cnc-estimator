@@ -29,7 +29,8 @@ export default class Main {
             const estimator = new Estimator(mappedFiles);
             const estimate = await estimator.estimate();
 
-            console.log('Done', estimate);
+            console.log('Done.');
+            console.log('Estmated cut', estimate);
             // await mailer.replyWithResult(this.incomingEmail, estimate);
         } catch (err) {
             console.log('There was an error. Replying to the email with details');

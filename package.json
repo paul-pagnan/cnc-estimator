@@ -34,7 +34,7 @@
     "gl-matrix": "^3.1.0",
     "hhmmss": "^1.0.0",
     "jsdom": "^15.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mailparser": "^2.7.1",
     "poly2tri": "^1.5.0",
     "queue": "^6.0.1",

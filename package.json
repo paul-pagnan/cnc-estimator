@@ -43,7 +43,7 @@
     "typescript": "^3.6.4",
     "uuid": "^3.3.3",
     "vectorize-text": "^3.2.1",
-    "xmldom": "^0.1.27",
+    "xmldom": "^0.6.0",
     "xregexp": "^4.2.4"
   }
 }

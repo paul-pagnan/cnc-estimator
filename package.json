@@ -23,7 +23,7 @@
     "@types/snapsvg": "^0.5.0",
     "@types/uuid": "^3.4.5",
     "aws-lambda": "^0.1.2",
-    "aws-sdk": "^2.556.0",
+    "aws-sdk": "^2.814.0",
     "bluebird": "^3.7.1",
     "canvas": "^2.6.0",
     "clipper-lib": "^6.2.1",
